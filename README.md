@@ -11,11 +11,11 @@ trolly problem answers in a "prompt: " field eg:
 - body: JSON.stringify({ prompt: 'Say hello' }),
 
 #### full example
-`fetch('http://localhost:5050/api/generate', {
+```fetch('http://localhost:5050/api/generate', {
   method: 'POST',
   body: JSON.stringify({ prompt: 'Say hello' }),
   headers: { 'Content-Type': 'application/json' },
-});`
+});```
 
 ### ??
 Should backend handle providing new trolly problems or front end? idk
