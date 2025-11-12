@@ -8,7 +8,8 @@ const client = new OpenAI({
 });
 
 async function sendPromptToGpt5Mini(prompt) {
-
+  // TODO: add a prefix to prompt to guide the model toward better answers
+  // TODO: maybe add some error handling here
   try {
     
     // Code grabbed from the OpenAI docs
@@ -18,6 +19,8 @@ async function sendPromptToGpt5Mini(prompt) {
     });
 
     const output = response.output_text
+
+    // TODO: instead of returning the whole text, parse out just the answer portion
     return output;
 
   } 
