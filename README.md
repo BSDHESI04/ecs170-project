@@ -15,7 +15,8 @@ trolly problem answers in a "prompt: " field eg:
   method: 'POST',
   body: JSON.stringify({ prompt: 'Say hello' }),
   headers: { 'Content-Type': 'application/json' },
-});```
+});
+```
 
 ### ??
 Should backend handle providing new trolly problems or front end? idk
