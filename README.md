@@ -7,7 +7,8 @@ Our primary project for ECS 170
 ## Backend info
 We have the backened right now listening on port 5050 
 Fetch from /api/generate on that port, make sure to send the users 
-trolly problem answers in a "prompt: " field 
+trolly problem answers in a "prompt: " field eg:  
+- body: JSON.stringify({ prompt: 'Say hello' }),
 
 ### ??
 Should backend handle providing new trolly problems or front end? idk
