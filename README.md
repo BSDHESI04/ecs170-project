@@ -10,6 +10,10 @@ Fetch from /api/generate on that port, make sure to send the users
 trolly problem answers in a "prompt: " field eg:  
 - body: JSON.stringify({ prompt: 'Say hello' }),
 
+### .env
+
+You must create a .env file within the backend folder and include an api key. It is NOT pushed by git. 
+
 #### full example
 ```
 fetch('http://localhost:5050/api/generate', {
