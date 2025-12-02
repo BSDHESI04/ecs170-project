@@ -16,37 +16,33 @@ app.post('/api/generate', async (req, res) => {
   try {
 
     const { model } = req.body;
-    let answer = null
     const { prompt } = req.body;
+    let answer = '';
 
-    if(model === 'gpt') {
-      answer = await sendPromptToGpt5Mini(prompt);
-      res.json({ result: answer });
-      return;
-    }
-    else if(model === 'grok') {
-    
-      answer = await sendPromptToGrok4(prompt);
-      res.json({ result: answer });
-      return; 
-
-    }
-    else if(model === 'claude') {
-      answer = await sendPromptToClaude4Haiku(prompt);
-      res.json({ result: answer });
-      return;
-    }
-    else if(model === 'all') {
+    if(model === 'all') {
       const claudeAnswer = await sendPromptToClaude4Haiku(prompt);
       const gptAnswer = await sendPromptToGpt5Mini(prompt);
       const grokAnswer = await sendPromptToGrok4(prompt);
       res.json({ result: { claude: claudeAnswer, gpt: gptAnswer, grok: grokAnswer } });
       return;
     }
+
+    if(model === 'gpt') {
+      answer = await sendPromptToGpt5Mini(prompt);
+    }
+    else if(model === 'grok') {
+      answer = await sendPromptToGrok4(prompt);
+    }
+    else if(model === 'claude') {
+      answer = await sendPromptToClaude4Haiku(prompt);
+    }
     else {
       res.status(400).json('Invalid model specified');
       return;
     }
+
+    res.json({ result: answer });
+    return;
 
   } 
   catch (error) {
