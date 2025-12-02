@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Tester</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 10px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 16px;
+    }
+
+    textarea, input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      font-size: 16px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px;
+      font-size: 18px;
+    }
+
+    #output {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      min-height: 100px;
+      white-space: pre-wrap;
+      font-family: Consolas, monospace;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>AI Prompt Tester</h2>
+
+  <label>Prompt:</label>
+  <textarea id="prompt" rows="4"></textarea>
+
+  <label>Model (gpt, grok, claude, all):</label>
+  <input id="model" type="text" />
+
+  <button id="sendButton">Send Prompt</button>
+
+  <div id="output"></div>
+
+  <script>
+    const sendButton = document.getElementById("sendButton");
+    const outputDiv = document.getElementById("output");
+
+    async function sendPrompt() {
+      const prompt = document.getElementById("prompt").value;
+      const model =  document.getElementById("model").value;
+
+      if (!prompt.trim()) {
+        alert("Please enter a prompt.");
+        return;
+      }
+
+      if (!model.trim()) {
+        alert("Please enter a model (gpt, grok, or both).");
+        return;
+      }
+
+      // Disable button
+      sendButton.disabled = true;
+      sendButton.innerText = "Loading...";
+
+      outputDiv.innerText = "Thinking...";
+
+      try {
+        const response = await fetch("http://localhost:5050/api/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ model, prompt })
+        });
+
+        const data = await response.json();
+
+        outputDiv.innerText = JSON.stringify(data, null, 2);
+      } 
+      catch (error) {
+        outputDiv.innerText = "Error: " + error.toString();
+      }
+
+      // Re-enable button
+      sendButton.disabled = false;
+      sendButton.innerText = "Send Prompt";
+    }
+
+    sendButton.addEventListener("click", sendPrompt);
+  </script>
+
+</body>
+</html>
