@@ -57,13 +57,24 @@ function tryParseJSON(text) {
   return null;
 }
 
-export async function getAiChoice({ promptId, problem, preferredModel = "chatgpt" }) {
+export async function getAiChoice({ promptId, problem, preferredModel = "chatgpt", humanStats }) {
   const model = FRIENDLY_TO_BACKEND_MODEL[preferredModel] || "gpt";
+
+  const counts = humanStats?.counts || { pull_lever: 0, do_nothing: 0 };
+  const examples = humanStats?.examples || [];
+
+  const humanSection =
+    `Human data (this session):\n` +
+    `- pull_lever: ${counts.pull_lever}\n` +
+    `- do_nothing: ${counts.do_nothing}\n` +
+    (examples.length ? `Recent human choices: ${examples.join(", ")}\n` : ``);
 
   const instruction =
     `You are deciding in a trolley problem.\n` +
     `Scenario: ${problem?.text}\n` +
     `Choices: ${problem?.choices?.join(", ")}\n\n` +
+    humanSection +
+    `Use the human data as a weak prior. You may disagree if your ethical reasoning justifies it.\n` +
     `Return ONLY a single-line JSON object with keys "choice" and "rationale".\n` +
     `Allowed "choice" values: "pull_lever" or "do_nothing".\n` +
     `"rationale" should be 1 to 2 sentences.\n` +
@@ -77,8 +88,8 @@ export async function getAiChoice({ promptId, problem, preferredModel = "chatgpt
 
   const out = r.ok ? await r.json() : { result: "" };
   const text = typeof out?.result === "string" ? out.result : JSON.stringify(out?.result || "");
-  const parsed = tryParseJSON(text);
 
+  const parsed = tryParseJSON(text);
   const aiChoice = parsed?.choice || inferChoiceFromText(text, problem?.choices);
   const rationale = parsed?.rationale || text.trim();
 
