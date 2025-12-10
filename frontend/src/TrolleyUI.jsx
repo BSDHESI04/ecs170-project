@@ -146,7 +146,7 @@ export default function TrolleyUI({
                     {currentDecision?.models?.[m]?.choice || "—"}
                     <span className="rationale">
                       {currentDecision?.models?.[m]?.rationale ||
-                        "No reasoning available"}
+                        "Loading reasoning..."}
                     </span>
                   </td>
                 </tr>

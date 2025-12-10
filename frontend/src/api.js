@@ -1,5 +1,3 @@
-// src/lib/api.js
-
 const FRIENDLY_TO_BACKEND_MODEL = {
   chatgpt: "gpt",
   claude: "claude",
@@ -11,12 +9,12 @@ const LOCAL_IDS = ["problem_1", "problem_2"];
 const LOCAL_PROBLEMS = {
   problem_1: {
     text:
-      "A runaway trolley is headed toward five people. You can pull a lever to divert it to a side track with one person.",
+      "A trolley is going down a track. Do you pull the lever to let it run over your family or do nothing to allow the trolley to run straight over two random families",
     choices: ["pull_lever", "do_nothing"]
   },
   problem_2: {
     text:
-      "A trolley approaches a fork. Diverting saves a group but harms one worker on the side track.",
+      "Run over a criminal instead of an innocent civilian?",
     choices: ["pull_lever", "do_nothing"]
   }
 };
@@ -31,7 +29,6 @@ export async function fetchProblem(id) {
 
 // -------------- Logging --------------
 export async function submitHumanChoice({ promptId, choice }) {
-  // Try to log if your backend has this route. If not, ignore errors.
   try {
     const r = await fetch("/api/submit-human-choice", {
       method: "POST",
@@ -77,7 +74,7 @@ export async function getAiChoice({ promptId, problem, preferredModel = "chatgpt
     `Use the human data as a weak prior. You may disagree if your ethical reasoning justifies it.\n` +
     `Return ONLY a single-line JSON object with keys "choice" and "rationale".\n` +
     `Allowed "choice" values: "pull_lever" or "do_nothing".\n` +
-    `"rationale" should be 1 to 2 sentences.\n` +
+    `"rationale" should be 2 sentences.\n` +
     `Example: {"choice":"pull_lever","rationale":"..."}`;
 
   const r = await fetch("/api/generate", {

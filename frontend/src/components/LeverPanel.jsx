@@ -54,11 +54,11 @@ export default function LeverSwapPanel({
 
       <div className="row lever-buttons">
         <button className="primary-btn" onClick={handleExecute}>
-          Execute Action
+          Pull lever
         </button>
 
         <button className="secondary-btn" onClick={handleHold}>
-          Hold Position
+          Do Nothing
         </button>
       </div>
 

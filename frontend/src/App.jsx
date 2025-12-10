@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import "./styles.css";
 import StartScreen from "./StartScreen.jsx";
 import TrolleyUI from "./TrolleyUI.jsx";
+import { scoreChoice, normalizeChoiceKey as normChoiceKey } from "./ethics.js";
 
 import {
   fetchProblemIds,
@@ -97,12 +98,17 @@ export default function App() {
     const ms = Math.max(0, Date.now() - (problemStartAt || Date.now()));
     const reactionS = Number((ms / 1000).toFixed(2));
 
+    const key = normChoiceKey(choiceId);
+    const human_framework_points = scoreChoice(promptId, key) || {};
+
+
     const baseRecord = {
       player_id: playerId,
       scenario_id: promptId,
       human_choice: pretty(choiceId),
       models: {},
-      reaction_time_s: reactionS
+      reaction_time_s: reactionS,
+      human_framework_points
     };
     setDecisions(prev => [...prev, baseRecord]);
 
@@ -156,9 +162,13 @@ export default function App() {
             preferredModel: model,
             humanStats
           });
+          const modelKey = normChoiceKey(aiChoice);
+          const framework_points = scoreChoice(promptId, modelKey) || {};
+
           pairs.push([model, {
             choice: pretty(aiChoice),
             rationale,
+            framework_points
           }]);
         } catch {
           pairs.push([model, { choice: "unknown", rationale: "Backend error" }]);
