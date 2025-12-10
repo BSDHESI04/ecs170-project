@@ -7,7 +7,7 @@ async function sendPromptToGrok4(sent_prompt) {
 
         // Code grabbed from the XAI docs
         const result = await generateText({
-            model: xai('grok-4-1-fast-reasoning'),
+            model: xai('grok-4-1-fast-non-reasoning'),
             system: 'You are Grok, a highly intelligent, helpful AI assistant.',
             prompt: sent_prompt,
         });

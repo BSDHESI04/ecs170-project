@@ -14,7 +14,7 @@ async function sendPromptToGpt5Mini(prompt) {
     
     // Code grabbed from the OpenAI docs
     const response = await client.responses.create({
-      model: 'gpt-5-mini',
+      model: 'gpt-5-nano',
       input: prompt,
     });
 
