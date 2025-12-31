@@ -1,35 +1,15 @@
 # ecs_170_project
 Our primary project for ECS 170
 
+During an Artificial Intelligence Course, my group and I were tasked with making a project that involves AI in some capacity. We chose to create a replication of the popular problem in ethics known as the Trolley Problem. In our version, instead of a human player giving a choice to a scenario we asked three different AI models: ChatGpt, Claude, and Grok.
 
 # backend docs
-
-## Backend info
-We have the backened right now listening on port 5050 
-Fetch from /api/generate on that port, make sure to send the users 
-trolly problem answers in a "prompt: " field eg:  
-- body: JSON.stringify({ prompt: 'Say hello' }),
 
 ### .env
 
 You must create a .env file within the backend folder and include an api key. It is NOT pushed by git. 
 
-#### full example
 ```
-fetch('http://localhost:5050/api/generate', {
-  method: 'POST',
-  body: JSON.stringify({ prompt: 'Say hello' }),
-  headers: { 'Content-Type': 'application/json' },
-});
-```
-
-### ??
-Should backend handle providing new trolly problems or front end? idk
-
-### model info
-We're currently only using GPT-5-mini. We will try to add other models.
-
-
 ### testing backend info
 If you want to test the backend, navigate to the backend direction and do the following
 - node server.js
