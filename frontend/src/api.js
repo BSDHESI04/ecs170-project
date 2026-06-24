@@ -83,7 +83,7 @@ export async function getAiChoice({ promptId, problem, preferredModel = "chatgpt
     `Scenario: ${problem?.text}\n` +
     `Choices: ${problem?.choices?.join(", ")}\n\n` +
     humanSection +
-    `Use the human data as a weak prior. You may disagree if your ethical reasoning justifies it.\n` +
+    `Use the human data as a weak prior. You may disagree if your ethical reasoning justifies it. State what the user chose and provide a rationale.\n` +
     `Return ONLY a single-line JSON object with keys "choice" and "rationale".\n` +
     `Allowed "choice" values: "pull_lever" or "do_nothing".\n` +
     `"rationale" should be 2 sentences.\n` +
