@@ -1,16 +1,13 @@
 {
-  "buildCommand": "cd frontend && npm install && npm run build",
-  "outputDirectory": "frontend/dist",
-  "framework": "vite",
-  "functions": {
-    "backend/api/**": {
-      "runtime": "nodejs20.x"
+    "experimentalServices": {
+        "frontend": {
+            "root": "frontend",
+            "routePrefix": "/",
+            "framework": "vite"
+        },
+        "backend": {
+            "root": "backend",
+            "routePrefix": "/_/backend"
+        }
     }
-  },
-  "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "/backend/api/:path*"
-    }
-  ]
 }
