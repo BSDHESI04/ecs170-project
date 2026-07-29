@@ -53,3 +53,14 @@ app.post('/api/generate', async (req, res) => {
 });
 
 module.exports = app;
+
+// ... all your existing route code stays the same ...
+
+module.exports = app;
+
+if (require.main === module) {
+  const port = process.env.PORT || 5050;
+  app.listen(port, () => {
+    console.log(`Backend listening on local port: ${port}`);
+  });
+}
