@@ -18,13 +18,15 @@ app.post('/api/generate', async (req, res) => {
     const { model, prompt } = req.body;
     let answer = '';
 
-    if(model === 'all') {
-      const claudeAnswer = await sendPromptToClaude4Haiku(prompt);
-      const gptAnswer = await sendPromptToGpt5Mini(prompt);
-      const grokAnswer = await sendPromptToGrok4(prompt);
-      return res.json({ result: { claude: claudeAnswer, gpt: gptAnswer, grok: grokAnswer } });
-      
-    }
+   if (model === 'all') {
+    const [claudeAnswer, gptAnswer, grokAnswer] = await Promise.all([
+    sendPromptToClaude4Haiku(prompt),
+    sendPromptToGpt5Mini(prompt),
+    sendPromptToGrok4(prompt)
+  ]);
+  
+  return res.json({ result: { claude: claudeAnswer, gpt: gptAnswer, grok: grokAnswer } });
+}
 
     if(model === 'gpt') {
       answer = await sendPromptToGpt5Mini(prompt);
