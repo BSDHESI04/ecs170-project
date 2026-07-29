@@ -31,6 +31,8 @@ const LOCAL_PROBLEMS = {
   },
 };
 
+const API_URL = import.meta.env.VITE_API_URL || "";
+
 // -------------- Problems --------------
 export async function fetchProblemIds() {
   return LOCAL_IDS;
@@ -42,11 +44,11 @@ export async function fetchProblem(id) {
 // -------------- Logging --------------
 export async function submitHumanChoice({ promptId, choice }) {
   try {
-    const r = await fetch("/api/submit-human-choice", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ promptId, choice })
-    });
+    const r = await fetch(`${API_URL}/api/submit-human-choice`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ promptId, choice })
+});
     if (r.ok) return await r.json();
   } catch {}
   return { ok: true, localOnly: true };
@@ -89,7 +91,7 @@ export async function getAiChoice({ promptId, problem, preferredModel = "chatgpt
     `"rationale" should be 2 sentences.\n` +
     `Example: {"choice":"pull_lever","rationale":"..."}`;
 
-  const r = await fetch("/api/generate", {
+  const r = await fetch(`${API_URL}/api/generate`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ model, prompt: instruction })
