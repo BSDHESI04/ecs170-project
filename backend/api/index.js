@@ -19,13 +19,19 @@ app.post('/api/generate', async (req, res) => {
     let answer = '';
 
    if (model === 'all') {
-    const [claudeAnswer, gptAnswer, grokAnswer] = await Promise.all([
-    sendPromptToClaude4Haiku(prompt),
-    sendPromptToGpt5Mini(prompt),
-    sendPromptToGrok4(prompt)
-  ]);
-  
-  return res.json({ result: { claude: claudeAnswer, gpt: gptAnswer, grok: grokAnswer } });
+    const [claudeResult, gptResult, grokResult] = await Promise.allSettled([
+      sendPromptToClaude4Haiku(prompt),
+      sendPromptToGpt5Mini(prompt),
+      sendPromptToGrok4(prompt)
+    ]);
+
+    return res.json({
+      result: {
+        claude: claudeResult.status === 'fulfilled' ? claudeResult.value : 'Error: ' + claudeResult.reason,
+        gpt: gptResult.status === 'fulfilled' ? gptResult.value : 'Error: ' + gptResult.reason,
+        grok: grokResult.status === 'fulfilled' ? grokResult.value : 'Error: ' + grokResult.reason,
+    }
+  });
 }
 
     if(model === 'gpt') {
